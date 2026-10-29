@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Magic Cursor · Your application copilot</title>
+  <link rel="stylesheet" href="src/app.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="index.html"><span class="brand-icon">↖</span> magic cursor<span class="beta">beta</span></a>
+    <div class="workspace"><span class="avatar">You</span><div>Personal workspace<small>Make the next move yours.</small></div></div>
+    <nav aria-label="Workspace"><button class="nav-item active" data-view="profile"><span>◉</span> Your profile</button><button class="nav-item" data-view="practice"><span>⌁</span> Practice playground</button></nav>
+    <div class="sidebar-note"><span class="little-cursor">↖</span><h3>A little less typing.<br>A little more momentum.</h3><p>Your next application starts with a point.</p></div>
+    <div class="privacy"><span>▣</span><div>Stays on your device<small>Your details are stored locally.</small></div></div>
+  </aside>
+  <main>
+    <header class="topbar"><span>Your workspace <span class="slash">/</span> <span id="breadcrumb">Your profile</span></span><span class="local-badge"><i></i> Local & private</span></header>
+    <div class="page">
+      <div class="page-heading"><div><p class="eyebrow">Less repetition. More possibility.</p><h1>Your details. On point.</h1><p>Tell us once. Let your cursor take it from here.</p></div><button class="button primary" id="save-top" type="submit" form="profile-form">Save profile <span>↗</span></button></div>
+      <section class="activation-panel" aria-label="Turn on Magic Cursor">
+        <div class="activation-main"><div><h2>Magic Cursor</h2><p id="enabled-description">On · Hover near a field to fill it</p></div><label class="switch"><input id="enabled" type="checkbox" checked aria-label="Enable Magic Cursor"><span></span></label></div>
+        <div class="ai-status-row"><div><h3>AI answers <span class="readiness" id="ai-ready-status" role="status">Needs setup</span></h3><p id="ai-quick-hint">Connect Claude once to get resume-based drafts.</p></div><button class="button primary" id="setup-ai" type="button">Turn on AI answers</button></div>
+        <details class="ai-settings" id="ai-setup"><summary>AI connection settings</summary><p>Connect your own API key to turn resume evidence into a draft. In hover mode, holding near an unfamiliar field for 1.1 seconds automatically sends its question and your saved resume to the selected provider for a draft. Clicking Draft also sends them. Review the answer before filling. API usage may cost money. <span id="key-storage-note">Remembered keys stay in this browser’s local extension storage and are not synced. Disconnect removes the saved key. Device storage is not encrypted by this app.</span></p><label for="ai-provider">AI provider</label><select id="ai-provider"><option value="claude">Claude (Anthropic)</option><option value="openai">OpenAI</option></select><p id="ai-model">Claude model: claude-haiku-5-5</p><label for="ai-key" id="ai-key-label">Anthropic API key</label><input id="ai-key" type="password" autocomplete="off" placeholder="Paste your API key here"><label class="remember"><input id="remember-api-key" type="checkbox" checked> Remember API key on this device</label><div class="knowledge-actions"><button class="button secondary" type="button" id="disconnect-ai">Disconnect selected provider</button><button class="button primary" type="button" id="connect-ai">Save key & turn on</button></div><p id="ai-status" role="status">Claude not connected. Local resume excerpts are available.</p></details>
+        <details class="autofill-options"><summary>Autofill options</summary><label for="fill-mode">When a field matches</label><select id="fill-mode"><option value="hover">Fill after a short hover</option><option value="click">Suggest, then click to fill</option></select><p>Hover for 1.1 seconds. Existing text stays yours. Press Esc to dismiss a suggestion.</p></details>
+        <p id="settings-status" role="status"></p>
+      </section>
+      <div class="content-grid">
+        <section class="profile-panel" id="profile-panel">
+          <div class="section-heading"><div><h2>Your profile</h2><p>The essentials you reach for, over and over.</p></div><span class="count" id="profile-count">0 details saved</span></div>
+          <form id="profile-form">
+            <div class="form-section"><h3><span>☺</span> The basics</h3><div class="field-grid">
+              <label>First name<input name="firstName" autocomplete="given-name" placeholder="e.g. Alex" maxlength="150"></label>
+              <label>Last name<input name="lastName" autocomplete="family-name" placeholder="e.g. Morgan" maxlength="150"></label>
+              <label>Email address<input name="email" type="email" autocomplete="email" placeholder="you@example.com" maxlength="254"></label>
+              <label>Phone number<input name="phone" type="tel" autocomplete="tel" placeholder="+1 (555) 000-0000" maxlength="50"></label>
+              <label>City<input name="city" autocomplete="address-level2" placeholder="e.g. Austin" maxlength="150"></label>
+              <label>Location<input name="location" placeholder="e.g. Austin, Texas, US" maxlength="200"></label>
+            </div></div>
+            <div class="form-section"><h3><span>⌘</span> Around the internet</h3><div class="field-grid">
+              <label class="full">LinkedIn URL<div class="input-with-icon"><span class="social-icon">in</span><input name="linkedin" type="url" placeholder="https://linkedin.com/in/yourname" maxlength="2000"></div></label>
+              <label>GitHub URL<input name="github" type="url" placeholder="https://github.com/yourname" maxlength="2000"></label>
+              <label>Personal website<input name="website" type="url" placeholder="https://yourname.com" maxlength="2000"></label>
+            </div></div>
+            <div class="form-section"><h3><span>▤</span> What you do</h3><div class="field-grid">
+              <label>Current company<input name="company" placeholder="e.g. Acme Studio" maxlength="200"></label>
+              <label>Current job title<input name="jobTitle" placeholder="e.g. Product designer" maxlength="200"></label>
+            </div></div>
+            <div class="form-section custom-section"><div class="custom-section-heading"><div><h3>Your custom fields</h3><p>Add a field name and its value. Matching names work on application forms.</p></div><button class="button secondary" id="add-custom-field" type="button">+ Add a field</button></div><div id="custom-fields"></div><p class="custom-empty" id="custom-empty">For example: “University” → “University of North Texas”.</p><p class="custom-save-hint">Click Save profile to use new fields or save changes.</p></div>
+            <div class="form-footer"><span id="save-status" role="status">Only saved details are used to fill forms.</span><button class="button primary" type="submit">Save profile</button></div>
+            <div class="profile-transfer"><p>Using the local practice page? Export your saved profile, then import it in the extension to use it on other websites.</p><div><button type="button" class="button secondary" id="export-profile">Export saved profile</button><button type="button" class="button secondary" id="import-profile">Import profile</button><input id="profile-import-file" type="file" accept=".json,application/json" hidden aria-label="Choose a profile file"></div><span id="transfer-status" role="status"></span></div>
+          </form>
+          <section class="knowledge-section" aria-labelledby="resume-heading">
+            <h2 id="resume-heading">Answers with something behind them.</h2>
+            <p>Upload your resume once. Relevant passages are retrieved as evidence for each application answer. Questions about availability, work authorization, or preferences need your own answer.</p>
+            <form id="resume-form"><label for="resume-text">Resume text</label><textarea id="resume-text" rows="9" maxlength="40000" placeholder="Paste the text of your resume here. It stays on this device unless you choose an AI draft."></textarea><label for="resume-import">Upload & save resume (PDF, TXT, Markdown)</label><input id="resume-import" type="file" accept=".pdf,.txt,.md,application/pdf,text/plain,text/markdown"><div class="knowledge-actions"><span id="resume-status" role="status"></span><button class="button primary" type="submit">Save resume text</button></div></form>
+
+          </section>
+          <section class="knowledge-section" aria-labelledby="answers-heading"><h2 id="answers-heading">Your approved answers</h2><p>Remembered answers are tied to the exact question and website. You’ll review them again before filling.</p><div id="answer-library"></div><p id="library-status" role="status"></p></section>
+        </section>
+        <aside class="right-column">
+          <section class="practice-panel" id="practice-panel"><div class="section-heading"><div><span class="demo-label"><i></i> Live playground</span><h2>Give it a little hover.</h2><p>Save a detail, then try it right here.</p></div></div>
+            <div class="sample-application"><div class="sample-company"><span class="company-mark">n.</span><div>Northstar<small>A sample application</small></div><span class="sample-dot">•••</span></div><h3>Your next chapter</h3><p>Let’s get to know you.</p>
+              <div class="demo-fields" id="demo-fields"><label>Full name<input name="app-full-name" placeholder="Your full name" autocomplete="name"></label><label>Email address<input name="app-email" type="email" placeholder="you@example.com"></label><label>LinkedIn URL<input name="app-linkedin" type="url" placeholder="https://linkedin.com/in/…"></label></div>
+              <div class="demo-questions" id="demo-questions"><label>Where are you currently located?<input name="app-location" placeholder="Hover here to use your saved location"></label><label>Describe your Python experience<textarea name="app-python" rows="3" placeholder="Hover here for help answering"></textarea></label><label>When are you available to start?<input name="app-availability" placeholder="Your availability"></label></div>
+              <div id="custom-demo" class="demo-questions" hidden><h3>Your custom fields</h3><div id="custom-demo-fields" class="demo-fields"></div></div>
+              <div class="demo-result" id="demo-result" role="status">↖ Move your pointer close to a field</div>
+            </div><button class="text-button" id="reset-demo">↺ Reset practice fields</button>
+          </section>
+
+          <div class="install-note"><span>↗</span><div><h3>Take it to your next application</h3><p>Load this folder as an unpacked extension in Chrome or Edge. <a href="README.md" target="_blank" rel="noopener">Setup instructions</a></p></div></div>
+        </aside>
+      </div>
+      <footer class="page-footer"><span>Made for the work before the work.</span><span>One profile. Fewer keystrokes.</span></footer>
+    </div>
+  </main>
+  <script src="src/matcher.js"></script><script src="src/answers.js"></script><script src="src/storage.js"></script><script src="src/credentials.js"></script><script src="src/local-ai.js"></script><script src="src/app.js"></script><script src="src/content.js"></script>
+</body>
+</html>
