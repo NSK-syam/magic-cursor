@@ -96,3 +96,5 @@ npm run build
 Tests cover label matching, ambiguous/sensitive field rejection, hover delays, cancellation, click mode, form events, Undo, existing text preservation, live settings updates, keyboard fill and field eligibility changes. After editing extension files, reload the extension from the extensions page and refresh the target tab.
 
 `npm run build` creates a clean install folder at `dist/magic-cursor` without development dependencies. Select that folder in **Load unpacked**. The Claude SDK is bundled locally; no remote scripts are used. Rebuild and reload the extension after making changes.
+
+Professional motivation questions (for example, “Why are you interested in this role?”) can generate suggested fit statements grounded in resume experience. Review and edit these to reflect your actual reasons. Company facts are not invented. Personal eligibility, availability, compensation, relocation and declarations still require user input.

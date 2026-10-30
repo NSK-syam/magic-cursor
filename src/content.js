@@ -177,6 +177,7 @@
     title.textContent = hasDraft ? `↖ ${source === 'Resume' ? 'Resume excerpt' : source + ' draft'} ready` : `↖ ${source === 'Resume' ? 'More information needed' : source + ' needs your input'}`;
     if (hasDraft) message.textContent = 'Review the draft below and its resume evidence before filling.' + (draft.missingFacts.length ? ` Still unanswered: ${draft.missingFacts.join('; ')}` : '');
     else message.textContent = `${source === 'Resume' ? 'No matching resume excerpt.' : source + ' did not produce a draft.'} ${hadAnswer ? 'Your existing answer is unchanged. ' : ''}Please add the requested information or write your answer. ${draft.missingFacts.join('; ')}`;
+    if (hasDraft && MagicAnswers.isMotivation(activeQuestion)) message.textContent += ' Suggested motivation: edit this to reflect your actual reasons before approving.';
     if (draft.filteredInput) message.textContent += ' Instruction-like text in the form or resume was ignored.';
     quotes.replaceChildren();
     for (const quote of draft.evidence) { const node = document.createElement('blockquote'); node.textContent = quote; quotes.append(node); }

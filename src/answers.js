@@ -37,8 +37,9 @@
     const fallback = placeholder ? tidy(element.placeholder) : '';
     return generic(fallback) ? '' : fallback;
   }
+  function isMotivation(text) { return /\b(why|interest\w*|motiv\w*)\b/i.test(text); }
   function needsFact(text) {
-    return /\b(authorized|authorised|authorization|authorisation|sponsor\w*|visa|citizenship|citizen|work permit|eligible to work|legally|relocat\w*|willing|availability|available|start date|notice period|salary|compensation|pay expectation|current (company|employer|role|title)|currently employed|disability|disabled|veteran|gender|pronouns|ethnicity|race|criminal|convict\w*|date of birth|age|consent|agree|certify|attest|why|interest\w*|prefer\w*|motiv\w*)\b/i.test(text);
+    return /\b(authorized|authorised|authorization|authorisation|sponsor\w*|visa|citizenship|citizen|work permit|eligible to work|legally|relocat\w*|willing|availability|available|start date|notice period|salary|compensation|pay expectation|current (company|employer|role|title)|currently employed|disability|disabled|veteran|gender|pronouns|ethnicity|race|criminal|convict\w*|date of birth|age|consent|agree|certify|attest|prefer\w*)\b/i.test(text);
   }
   function find(answers, text, origin) {
     return (Array.isArray(answers) ? answers : []).find(item => item.origin === origin && item.questionKey === normalize(text));
@@ -68,7 +69,7 @@
     if (/\b(?:as an?|i am an?)\s+(?:ai(?:\s+(?:model|assistant|system))?|(?:large\s+)?language model|llm)\b(?!\s+(?:engineer|researcher|developer|specialist))/i.test(draft.answer)) throw new Error('The draft included AI-assistant boilerplate. Please retry or write your answer.');
     return { answer: draft.answer.trim(), evidence: draft.evidence.slice(0, 6), missingFacts: draft.missingFacts.slice(0, 8) };
   }
-  const api = { normalize, question, needsFact, find, excerpt, validateDraft };
+  const api = { normalize, question, needsFact, isMotivation, find, excerpt, validateDraft };
   root.MagicAnswers = api;
   if (typeof module !== 'undefined') module.exports = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

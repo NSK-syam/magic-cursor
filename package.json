@@ -1,6 +1,6 @@
 {
   "name": "magic-cursor",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "private": true,
   "description": "Local, pointer-assisted autofill for application forms",
   "scripts": {

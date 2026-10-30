@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Magic Cursor \u2014 pointer autofill",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Save your details once. Hover near an application field to fill a matching value.",
   "permissions": [
     "storage",

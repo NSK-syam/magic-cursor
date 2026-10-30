@@ -347,3 +347,13 @@ test('draft controls do not escape to page navigation handlers or erase other ap
   h.root.querySelector('textarea').dispatchEvent(new h.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true, composed: true }));
   assert.equal(h.root.host.style.display, 'none'); h.close();
 });
+test('interest questions allow Claude drafting and keep the suggested motivation for review', async () => {
+  let requests = 0;
+  const h = await harness({ markup: '<label>Why are you interested in this role at Trace?<textarea></textarea></label>', resume: 'Built Python services.', sendMessage: async () => { requests++; return { ok: true, draft: { answer: 'I would bring my experience building Python services to this role.', evidence: ['Built Python services.'], missingFacts: [] } }; } });
+  await h.move(); h.root.querySelector('.row button').click();
+  assert.equal(h.root.querySelectorAll('.tools button')[1].disabled, false);
+  h.root.querySelectorAll('.tools button')[1].click(); await settle();
+  assert.equal(requests, 1); assert.match(h.root.querySelector('textarea').value, /Python/);
+  assert.match(h.root.querySelector('section [role=status]').textContent, /motivation/i);
+  assert.equal(h.input.value, ''); h.close();
+});

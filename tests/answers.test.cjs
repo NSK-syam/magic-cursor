@@ -32,7 +32,7 @@ test('uses a form question title over generic textbox labels through deep wrappe
   assert.equal(answers.question(dom.window.document.querySelector('input')), '3. University'); dom.window.close();
 });
 test('facts and preferences cannot be generated from a resume', () => {
-  for (const question of ['Are you legally authorized to work?', 'Will you require sponsorship?', 'When are you available?', 'Are you willing to relocate?', 'What is your current company?', 'Why do you want to join us?', 'Do you certify this information?']) {
+  for (const question of ['Are you legally authorized to work?', 'Will you require sponsorship?', 'When are you available?', 'Are you willing to relocate?', 'What is your current company?', 'Do you certify this information?']) {
     assert.equal(answers.needsFact(question), true, question);
     assert.equal(answers.excerpt(question, 'I built Python applications.').answer, '');
   }
@@ -63,4 +63,11 @@ test('evidence quotes that span line breaks or sentences match the resume', () =
   const draft = { answer: 'I built Python services and reduced API latency by 40%.', evidence: ['Built Python services using FastAPI. Reduced API latency by 40% for the payments team.'], missingFacts: [] };
   assert.equal(answers.validateDraft(draft, source).answer, draft.answer);
   assert.throws(() => answers.validateDraft({ ...draft, evidence: ['Built Rust services.'] }, source), /verifiable/);
+});
+
+test('professional motivation can be drafted while personal declarations remain protected', () => {
+  for (const question of ['Why are you interested in this role at Trace?', 'Why do you want to join us?', 'What motivates you about this role?']) {
+    assert.equal(answers.needsFact(question), false); assert.equal(answers.isMotivation(question), true);
+  }
+  assert.equal(answers.needsFact('Why do you require visa sponsorship?'), true);
 });
